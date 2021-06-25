@@ -1,4 +1,0 @@
-Reading a file with python.
-That's so awesome!Hello, its meeee!Hello, its meeee!Hello, its meeee!Hello, its meeee!
-Hello, its meeee!
-Add more information!

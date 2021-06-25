@@ -6,7 +6,7 @@ headers = {
 }
 
 # URL root
-url = "https://www.wikipedia.org/"
+url = "https://www.nba.com/"
 
 # Requirements
 r = requests.get(url, headers=headers)
@@ -18,8 +18,8 @@ parser = html.fromstring(r.text)
 # print(english.text_content())
 
 # Get the text using xpath
-languages = parser.xpath("//div[contains(@class, 'central-featured-lang')]//strong/text()")
+languages = parser.xpath("//div[contains(@class, 'Block_titleContainer__3NqMt Block_titleWithCarousel__2HnEn')]//h2/text()")
 
 for language in languages:
     print(language)
-# print(languages)
+# print(languages.text)
