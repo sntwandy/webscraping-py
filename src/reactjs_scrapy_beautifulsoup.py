@@ -3,6 +3,7 @@ from scrapy.item import Item
 from scrapy.selector import Selector
 from scrapy.spiders import Spider
 from scrapy.loader import ItemLoader
+from scrapy.crawler import CrawlerProcess
 
 
 class ReactJSDoc(Item):
@@ -25,3 +26,12 @@ class ReactJSDocumentation(Spider):
             item.add_xpath('title', './text()')
 
             yield item.load_item()
+
+
+# process = CrawlerProcess({
+#     'FEED_URI': 'data.csv',
+#     'FEED_FORMAT': 'csv',
+# })
+#
+# process.crawl(ReactJSDocumentation)
+# process.start()
