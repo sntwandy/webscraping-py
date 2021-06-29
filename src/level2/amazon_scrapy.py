@@ -9,14 +9,13 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.loader import ItemLoader
 
 
-class Hotel(Item):
+class Product(Item):
     name = Field()
-    # price = Field()
-    # description = Field()
-    # amenities = Field()
+    price = Field()
+    description = Field()
 
 
-class TripAdvisor(CrawlSpider):
+class Amazon(CrawlSpider):
     name = 'Hotels'
     custom_settings = {
         'USER_AGENT': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36'
@@ -30,19 +29,22 @@ class TripAdvisor(CrawlSpider):
         Rule(
             LinkExtractor(
                 allow=r'/dp/'
-            ), follow=True, callback='_parse_item'
+            ), follow=True, callback="parse_item"
         ),
     )
 
-    def _parse_item(self, response):
+    def delete_blank_space(self, text):
+        new_text = text.replace('\n', '').replace('\r', '').replace('\t', '').replace('$', '')
+        return new_text
+
+    def parse_item(self, response):
         try:
             print(response)
             sel = Selector(response)
-            item = ItemLoader(Hotel, sel)
-            item.add_xpath('name', '//span[@id="productTitle"]/text()')
-            # item.add_xpath('price', '//div[@class="CEf5oHnZ"]/text()')
-            # item.add_xpath('description', '//div[@class="_2f_ruteS _1bona3Pu _2-hMril5"]/div[1]/text()')
-            # item.add_xpath('amenities', '//div[contains(@class, "_2rdvbNSg")]/text()')
+            item = ItemLoader(Product(), sel)
+            item.add_xpath('name', '//span[@id="productTitle"]/text()', MapCompose(self.delete_blank_space))
+            item.add_xpath('price', '//span[@id="price_inside_buybox"]/text()', MapCompose(self.delete_blank_space))
+            item.add_xpath('description', '//div[@id="productDescription"]/p/text()', MapCompose(self.delete_blank_space))
 
             yield item.load_item()
         except:
