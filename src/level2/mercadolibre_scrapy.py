@@ -22,7 +22,7 @@ class MercadoLibreCrawler(CrawlSpider):
 
     download_delay = 1
 
-    # allowed_domains = ['https://listado.mercadolibre.com.do', 'https://articulo.mercadolibre.com.do']
+    allowed_domains = ['listado.mercadolibre.com.do', 'articulo.mercadolibre.com.do']
 
     start_urls = ['https://listado.mercadolibre.com.do/celulares-smartphones']
 
